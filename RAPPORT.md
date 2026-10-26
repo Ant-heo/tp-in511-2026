@@ -1,6 +1,6 @@
 # Rapport TP Agents IA
 
-Binômes : REYNAUD Anthéo & LEDOUIT Mathis & RIVAUX Nathan
+Trinômes : REYNAUD Anthéo & LEDOUIT Mathis & RIVAUX Nathan
 
 ## Exercices
 
@@ -100,14 +100,21 @@ Il execute une mauvaise requête SQL qui lui renvoie une erreur SQL. Le LLM arri
 
 ### Exercice 2.3
 
+La variante C ne se démarque pas tellement et dégrade même les performances car le LLM perd des itérations à expliquer son raisonnement mais la A et la B rendent les requêtes plus efficaces. 
 
+Quand on compare le nombre d'itérations à chaque question entre A et B, elles sont à égalité. B permet d'éviter l'erreur mentionnée au dessus si le LLM forge une mauvaise requete SQL et A permet d'avoir moins de sous requetes inutiles SQL. D'après nos observations, aucune de ces 2 la ne se démarque plus que l'autre.
+
+
+Le prompt influence le nombre d'itérations car un prompt mal formulé sur une requete qu'on veut faire dans la BDD obligerait le LLM à avoir besoin de plus d'infos et donc plus de requetes sur la BDD (avec la variante C, le LLM explorait les 3 tables au lieu de 2 nécessaires dans A et B)
+
+On pourrait lui demander de penser étape par étape mais au risque de saturer rapidement le nombre d'itérations car il voudrait surement bien expliciter chaque tool call et les executer un par un au lieu de faire un JOIN par exemple.
 
 
 ## Difficultés rencontrées
 
 - La majeure difficulté que nous avons rencontrée à été de comprendre dans l'exo 1.2 qu'il fallait remplir correctement notre tableau messages avec la réponse du LLM demandant le tool call puis ensuite le message du tool call avec la réponse avant de redonner ce flux de messages au prochain appel de call_llm().
 
-Une fois cela comprit, le TP est très bien guidé donc nous n'avons pas eu d'autres difficultés sur commment mettre en place la boucle de l'agent pour traiter plusieurs itérations. 
+Une fois cela compris, le TP est très bien guidé donc nous n'avons pas eu d'autres difficultés sur commment mettre en place la boucle de l'agent pour traiter plusieurs itérations. 
 
 L'utilisation des dictionnaires python rend cela facile afin de checker les "finish reason" ou les "tools calls" pour les inclure dans nos conditions ou boucles python.
 
@@ -118,6 +125,18 @@ L'utilisation des dictionnaires python rend cela facile afin de checker les "fin
 ## Réflexions
 
 - Que pensez-vous du mécanisme de tool calling ?
+
+C'est un bon mécanisme qui dissocie vraiment les intentions du LLM pour réaliser une action de l'action en elle même. Cela force le LLM a devoir utiliser un outil a sa disposition en mettant des arguments corrects vis a vis de son problème. 
+
 - Quels sont les risques de sécurité d'un agent SQL ?
+
+Nous n'avons pas fait la partie optionnelle mais en regardant le sujet on peut penser que le LLM sans restrictions pourrait faire des opérations dangereuses comme UPDATE ALTER ou DELETE ou qu'un utilisateur pourrait le forcer a DROP TABLE par exemple.
+
 - Comment améliorer la gestion du contexte ?
+
+Nous avons remarqué que le premier tool call à chaque fois est de découvrir les tables de la BDD ce qui fait deja perdre une itération. On pourrait peut etre rajouter une description rapide de la BDD dans le system prompt pour aider le LLM a gagner du temps.
+
+
 - Quelles fonctionnalités vous sembleraient intéressantes d'ajouter ?
+
+Pas d'idées...

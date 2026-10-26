@@ -10,7 +10,7 @@ Tools:
 - SQLQuery: execute any SQL query
 
 Think step by step. Explore the schema first, then query.
-Always use JOINs instead of multiple queries when possible."""
+Explain your reasoning before each tool call."""
 
 
 
