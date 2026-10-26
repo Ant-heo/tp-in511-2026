@@ -9,7 +9,8 @@ Tools:
 - DescribeTable: get table structure
 - SQLQuery: execute any SQL query
 
-Think step by step. Explore the schema first, then query."""
+Think step by step. Explore the schema first, then query.
+Always use JOINs instead of multiple queries when possible."""
 
 
 

@@ -1,6 +1,6 @@
 # Rapport TP Agents IA
 
-Binôme : Ledouit Mathis
+Binômes : REYNAUD Anthéo & LEDOUIT Mathis & RIVAUX Nathan
 
 ## Exercices
 
@@ -66,6 +66,9 @@ make_tool convertit chaque dataclass au format OpenAI, en précisant automatique
 
 Si l'on ajoute un argument, cela peut embrouiller le LLM, car si l'on ne décrit pas les arguments dans la description, le LLM doit deviner leur fonctionnement seulement avec le nom.
 
+Si on rajoute un champ Literal["french", "english"] et une phrase en allemand par exemple, le LLM va comprendre qu'il n'a pas l'option d'indiquer sur le champ que le texte est en allemand. 
+Cependant à la fin de son raisonnement, il préfère executer l'outil quand même en utilisant la valeur "english" qu'il définit comme fallback.
+
 ### Exercice 2.1
 
 ```shell
@@ -89,19 +92,28 @@ Le résultat est **36**.
 
 ### Exercice 2.2
 
+L'agent utilise correctement les 3 outils SQL et demande des tool calls pour ceux ci. Il répond également correctement aux 5 questions qu'on lui pose en ne dépassant pas les 5 itérations max.
+
+Cependant, il peut arriver sur une certaine éxecution du script qu'il fail sur la question de l'auteur de Dune.
+
+Il execute une mauvaise requête SQL qui lui renvoie une erreur SQL. Le LLM arrive a la prochaine itération a réexecuter la commande SQL corrigée (sans avoir encore ajouté le system prompt de l'exo 2.3) cependant il n'est pas capable de renvoyer le résultat à l'utilisateur car le tool call corrigé était la dernière itération. 
+
+### Exercice 2.3
+
+
 
 
 ## Difficultés rencontrées
 
-- ...
+- La majeure difficulté que nous avons rencontrée à été de comprendre dans l'exo 1.2 qu'il fallait remplir correctement notre tableau messages avec la réponse du LLM demandant le tool call puis ensuite le message du tool call avec la réponse avant de redonner ce flux de messages au prochain appel de call_llm().
 
-## Démarche suivie
+Une fois cela comprit, le TP est très bien guidé donc nous n'avons pas eu d'autres difficultés sur commment mettre en place la boucle de l'agent pour traiter plusieurs itérations. 
 
-- ...
+L'utilisation des dictionnaires python rend cela facile afin de checker les "finish reason" ou les "tools calls" pour les inclure dans nos conditions ou boucles python.
 
 ## Solutions apportées et résultats
 
-- ...
+- Voir réponses ci-dessus aux différents exercices.
 
 ## Réflexions
 
